@@ -1,0 +1,21 @@
+{{#> layout}}
+<div class="container-float">
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Id</th>
+            <th>Release Date</th>
+            <th>Vote Avg</th>
+        </tr>
+        {{#each results}}
+            <tr>
+                <td><a href="/movies/{{this.title}}">{{this.title}}</a></td>
+                <td>{{this.id}}</td>
+                <td>{{this.releaseDate}}</td>
+                <td>{{this.voteAverage}}</td>
+                <!--<td><a href="{{this.album.url}}">Link</a></td>!-->
+            </tr>
+        {{/each}}
+    </table>
+</div>
+{{/layout}}

@@ -8,7 +8,7 @@ const hbs = require('hbs');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
-const search = require('./routes/search');
+const movies = require('./routes/movies');
 
 const app = express();
 
@@ -49,7 +49,7 @@ app.use(express.static(path.join(__dirname, 'public')));
  */
 app.use('/', index);
 app.use('/users', users);
-app.use('/search', search);
+app.use('/movies', movies);
 
 
 /**
