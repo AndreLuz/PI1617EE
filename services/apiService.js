@@ -2,6 +2,7 @@
 
 const provider = require('../infoprovider.js');
 const movieSearch = require('../models/MovieSearch.js')
+const movieDetails = require('../models/MovieDetails.js')
 
 var exportHandler = {};
 
@@ -22,6 +23,17 @@ exportHandler.searchService = function(uri, cb) {
             return cb(err)
         data = JSON.parse(data)
         let items = new movieSearch(data)
+        cb(null, items)
+    })
+}
+
+exportHandler.detailsService = function(uri, cb) {
+    let opt = new Options(uri)
+    provider.httpRequest(opt, (err, data) => {
+        if(err)
+            return cb(err)
+        data = JSON.parse(data)
+        let items = new movieDetails(data)
         cb(null, items)
     })
 }
