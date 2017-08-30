@@ -6,9 +6,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const hbs = require('hbs');
 
-const index = require('./routes/index');
-const users = require('./routes/users');
-const movies = require('./routes/movies');
+const controller = require('./controllers/controller');
 
 const app = express();
 
@@ -36,9 +34,9 @@ hbs.registerPartials(__dirname + '/views/partials');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(logger('dev'));
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 app.use(cookieParser());
 // loads static files from given directory
 app.use(express.static(path.join(__dirname, 'public')));
@@ -47,9 +45,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 /**
  * Add Routes
  */
-app.use('/', index);
-app.use('/users', users);
-app.use('/movies', movies);
+controller(app);
 
 
 /**
