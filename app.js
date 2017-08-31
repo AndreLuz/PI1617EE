@@ -30,8 +30,7 @@ hbs.registerPartials(__dirname + '/views/partials');
  * Middlewares
  */
 // loads favicon from given directory
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(logger('dev'));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -43,7 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 /**
- * Add Routes
+ * Controllers
  */
 controller(app);
 
@@ -57,7 +56,6 @@ controller(app);
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
-    next(err);
 });
 
 // error handler

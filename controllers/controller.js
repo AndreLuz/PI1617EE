@@ -18,15 +18,21 @@ module.exports = function actorsCtrl(app) {
      */
     app.get('/movies', function(req, res, next) {
         const name = req.query.name;
+        var page = '1';
+        if (Object.prototype.hasOwnProperty.call(req.query, 'page')) {
+            page = req.query.page
+        }
         const api_url = 'https://api.themoviedb.org/3/search/movie?api_key='
-            + API_KEY + "&query=" + name;
-        apiService.searchService(api_url, (err, data) => {
+            + API_KEY + '&query=' + name + '&page=' + page;
+        apiService.searchService(api_url, page, (err, data, pagination) => {
             if(err)
                 return next(err);
             res.render('movies_list',
                 {
                     title: 'Search Results',
-                    results: data.results
+                    name: name,
+                    results: data.results,
+                    pagination: pagination
                 });
         });
     });
@@ -83,5 +89,5 @@ module.exports = function actorsCtrl(app) {
                     cast: data.cast
                 });
         });
-    })
+    });
 };

@@ -18,16 +18,29 @@ function Options(uri, method, form, headers) {
     this.form = form || '';
 }
 
-exportHandler.searchService = function(uri, cb) {
+exportHandler.searchService = function(uri, page, cb) {
     let opt = new Options(uri);
     provider.httpRequest(opt, (err, data) => {
         if(err)
             return cb(err);
         data = JSON.parse(data);
-        let items = new MovieSearch(data);
-        cb(null, items);
+        const pagination = checkPages(Number(page), data.total_pages)
+        cb(null, new MovieSearch(data), pagination);
     })
 };
+
+function checkPages(page, total) {
+    let pagination = {};
+    if(page !== 1)
+        pagination.first = 1;
+    if(page !== total)
+        pagination.last = total;
+    if (page > 1)
+        pagination.prev = page - 1;
+    if (page < total)
+        pagination.next = page + 1;
+    return pagination
+}
 
 exportHandler.movieDetailsService = function(uri, cb) {
     let opt = new Options(uri);
