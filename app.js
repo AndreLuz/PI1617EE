@@ -70,6 +70,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-
-// API key = c1369884d0ef11d7a69a7fb32a80b8e9
-// https://api.themoviedb.org/3/movie/550?api_key=c1369884d0ef11d7a69a7fb32a80b8e9

@@ -1,17 +1,27 @@
 {{#> layout}}
 <div class="container-float">
-    {{#if pagination.first}}
-        <a href="/movies?name={{name}}&page={{pagination.first}}">First</a>
-    {{/if}}
-    {{#if pagination.prev}}
-        <a href="/movies?name={{name}}&page={{pagination.prev}}">Prev</a>
-    {{/if}}
-    {{#if pagination.next}}
-        <a href="/movies?name={{name}}&page={{pagination.next}}">Next</a>
-    {{/if}}
-    {{#if pagination.last}}
-        <a href="/movies?name={{name}}&page={{pagination.last}}">Last</a>
-    {{/if}}
+    <p>
+        {{#if pagination.first}}
+            <a href="/movies?name={{name}}&page={{pagination.first}}">First</a>
+        {{else}}
+            First
+        {{/if}}
+        {{#if pagination.prev}}
+            <a href="/movies?name={{name}}&page={{pagination.prev}}">Prev</a>
+        {{else}}
+            Prev
+        {{/if}}
+        {{#if pagination.next}}
+            <a href="/movies?name={{name}}&page={{pagination.next}}">Next</a>
+        {{else}}
+            Next
+        {{/if}}
+        {{#if pagination.last}}
+            <a href="/movies?name={{name}}&page={{pagination.last}}">Last</a>
+        {{else}}
+            Last
+        {{/if}}
+    </p>
     <table>
         <tr>
             <th>Title</th>

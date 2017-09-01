@@ -5,8 +5,10 @@ const MovieSearch = require('../models/MovieSearch.js');
 const MovieDetails = require('../models/MovieDetails.js');
 const Credits = require('../models/Credits.js');
 const ActorCredits = require('../models/ActorCredits.js');
+const cacheController = require('../controllers/cacheController.js');
 
-var exportHandler = {};
+const exportHandler = {};
+const API_KEY = 'c1369884d0ef11d7a69a7fb32a80b8e9';
 
 function Options(uri, method, form, headers) {
     //this.protocol = 'https:'
@@ -18,13 +20,14 @@ function Options(uri, method, form, headers) {
     this.form = form || '';
 }
 
-exportHandler.searchService = function(uri, page, cb) {
-    let opt = new Options(uri);
-    provider.httpRequest(opt, (err, data) => {
+exportHandler.searchService = function(name, page, cb) {
+    const api_uri = 'https://api.themoviedb.org/3/search/movie?api_key='
+        + API_KEY + '&query=' + name + '&page=' + page;
+    provider.httpRequest(new Options(api_uri), (err, data) => {
         if(err)
             return cb(err);
         data = JSON.parse(data);
-        const pagination = checkPages(Number(page), data.total_pages)
+        const pagination = checkPages(Number(page), data.total_pages);
         cb(null, new MovieSearch(data), pagination);
     })
 };
@@ -42,35 +45,53 @@ function checkPages(page, total) {
     return pagination
 }
 
-exportHandler.movieDetailsService = function(uri, cb) {
-    let opt = new Options(uri);
-    provider.httpRequest(opt, (err, data) => {
+exportHandler.movieDetailsService = function(id, cb) {
+    const api_uri = 'https://api.themoviedb.org/3/movie/' + id
+        + '?api_key=' + API_KEY;
+    const cached_name = 'movie' + id;
+    let items = cacheController.Get(cached_name)
+    if (items !== undefined)
+        return cb(null, items);
+    provider.httpRequest(new Options(api_uri), (err, data) => {
         if(err)
             return cb(err);
         data = JSON.parse(data);
-        let items = new MovieDetails(data);
-        cb(null, items);
+        items = new MovieDetails(data);
+        cacheController.Put(cached_name, items);
+        cb(null, items)
     })
 };
 
-exportHandler.creditsService = function(uri, cb) {
-    let opt = new Options(uri);
-    provider.httpRequest(opt, (err, data) => {
+exportHandler.creditsService = function(id, cb) {
+    const api_uri = 'https://api.themoviedb.org/3/movie/' +
+        id + '/credits' + '?api_key=' + API_KEY;
+    const cached_name = 'moviecredits' + id;
+    let items = cacheController.Get(cached_name);
+    if (items !== undefined)
+        return cb(null, items);
+    provider.httpRequest(new Options(api_uri), (err, data) => {
         if(err)
             return cb(err);
         data = JSON.parse(data);
         let items = new Credits(data);
+        cacheController.Put(cached_name, items);
         cb(null, items);
     })
 };
 
-exportHandler.actorService = function(uri, cb) {
-    let opt = new Options(uri);
-    provider.httpRequest(opt, (err, data) => {
+exportHandler.actorService = function(id, cb) {
+    const api_uri = 'https://api.themoviedb.org/3/person/' +
+        id + '/movie_credits?api_key='+ API_KEY;
+    const cached_name = 'personcredits' + id;
+    let items = cacheController.Get(cached_name);
+    if (items !== undefined)
+        return cb(null, items);
+    provider.httpRequest(new Options(api_uri), (err, data) => {
         if(err)
             return cb(err);
         data = JSON.parse(data);
         let items = new ActorCredits(data);
+        cacheController.Put(cached_name, items);
         cb(null, items);
     })
 };
