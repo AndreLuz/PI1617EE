@@ -49,16 +49,10 @@ exportHandler.movieDetailsService = function(id, cb) {
     const api_uri = 'https://api.themoviedb.org/3/movie/' + id
         + '?api_key=' + API_KEY;
     const cached_name = 'movie' + id;
-    let items = cacheController.Get(cached_name)
-    if (items !== undefined)
-        return cb(null, items);
-    provider.httpRequest(new Options(api_uri), (err, data) => {
+    cacheWork(api_uri, cached_name, MovieDetails, (err, data) => {
         if(err)
             return cb(err);
-        data = JSON.parse(data);
-        items = new MovieDetails(data);
-        cacheController.Put(cached_name, items);
-        cb(null, items)
+        cb(null, data);
     })
 };
 
@@ -66,16 +60,10 @@ exportHandler.creditsService = function(id, cb) {
     const api_uri = 'https://api.themoviedb.org/3/movie/' +
         id + '/credits' + '?api_key=' + API_KEY;
     const cached_name = 'moviecredits' + id;
-    let items = cacheController.Get(cached_name);
-    if (items !== undefined)
-        return cb(null, items);
-    provider.httpRequest(new Options(api_uri), (err, data) => {
+    cacheWork(api_uri, cached_name, Credits, (err, data) => {
         if(err)
             return cb(err);
-        data = JSON.parse(data);
-        let items = new Credits(data);
-        cacheController.Put(cached_name, items);
-        cb(null, items);
+        cb(null, data);
     })
 };
 
@@ -83,6 +71,14 @@ exportHandler.actorService = function(id, cb) {
     const api_uri = 'https://api.themoviedb.org/3/person/' +
         id + '/movie_credits?api_key='+ API_KEY;
     const cached_name = 'personcredits' + id;
+    cacheWork(api_uri, cached_name, ActorCredits, (err, data) => {
+        if(err)
+            return cb(err);
+        cb(null, data);
+    })
+};
+
+function cacheWork(api_uri, cached_name, ctor, cb) {
     let items = cacheController.Get(cached_name);
     if (items !== undefined)
         return cb(null, items);
@@ -90,10 +86,10 @@ exportHandler.actorService = function(id, cb) {
         if(err)
             return cb(err);
         data = JSON.parse(data);
-        let items = new ActorCredits(data);
+        let items = new ctor(data);
         cacheController.Put(cached_name, items);
         cb(null, items);
     })
-};
+}
 
 module.exports = exportHandler;

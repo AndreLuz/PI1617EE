@@ -2,15 +2,20 @@
 
 var apiService = require('../services/apiService');
 
-const API_KEY = 'c1369884d0ef11d7a69a7fb32a80b8e9';
-
-module.exports = function actorsCtrl(app) {
+module.exports = function(app) {
 
     /**
      * homepage endpoint: /
      */
     app.get('/', function(req, res, next) {
         res.render('index', { title: 'Movie Search' });
+    });
+
+    /**
+     * user page endpoint: /user
+     */
+    app.get('/user/:id', function(req, res, next) {
+
     });
 
     /**

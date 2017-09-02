@@ -1,0 +1,29 @@
+{{#> layout}}
+<h1>Username: {{id}}</h1>
+{{#if user}}
+    <!--{{#compareTwo user._id id}}
+        <h3>Pending Requests</h3>
+        {{#each user.requests}}
+            <p>{{this}}</p>
+            <form action="./acceptRequest/{{this}}" method="post" id="acceptRequest">
+                <button type="submit" form="acceptRequest" value="Submit">Accept</button>
+            </form>
+
+            <form action="./refuseRequest/{{this}}" method="post" id="refuseRequest">
+                <button type="submit" form="refuseRequest" value="Submit">Refuse</button>
+            </form>
+        {{/each}}
+    {{else}}
+        {{#if noRequest}}
+            <form action="./{{id}}/viewerRequest" method="post" id="viewerRequest">
+                <button type="submit" form="viewerRequest" value="Submit">Request</button>
+            </form>
+        {{/if}}
+    {{/compareTwo}}!-->
+
+    <button type="button" onclick='getFollowedEvents("{{id}}")'>Followed Events</button>
+    <div id="followedEventsList"></div>
+{{else}}
+    <p>Login first</p>
+{{/if}}
+{{/layout}}
