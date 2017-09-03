@@ -4,29 +4,6 @@ var dbService = require('../services/dbService');
 
 module.exports = function(app, passport) {
     /**
-     * user search endpoint: /user
-     */
-    app.get('/user', function(req, res, next) {
-        res.render('user_search', {title: 'Search User' });
-    });
-
-    /**
-     * user page endpoint: /user/{username}
-     */
-    app.get('/user/:username', function(req, res, next) {
-        dbService.getUser(req.params.username, (err, data) => {
-            if(err)
-                return next(err);
-            res.render('user',
-                {
-                    title: data.username + ' Profile',
-                    username: data.username,
-                    favourites: data.favourites
-                });
-        })
-    });
-
-    /**
      * log in endpoint: /login
      */
     app.get('/login', function(req, res, next) {
@@ -37,7 +14,7 @@ module.exports = function(app, passport) {
         'local',
         {
             successRedirect: '/',
-            failureRedirect: '/login',
+            failureRedirect: '/login'
         })
     );
 
@@ -46,7 +23,24 @@ module.exports = function(app, passport) {
      */
     app.get('/signup', function(req, res, next) {
         res.render('signup', { title: 'Signup Page' });
-    })
+    });
 
-    /*app.post()*/
+    app.post('/signup', passport.authenticate(
+        'local-signup',
+        {
+            successRedirect: '/login',
+            failureRedirect: '/signup'
+        }
+    ));
+
+    /**
+     * log out endpoint: /logout
+     */
+    app.get('/logout', function(req, res, next) {
+        req.session.destroy( err => {
+            if(err)
+                next(err)
+            res.render('homepage');
+        });
+    });
 };

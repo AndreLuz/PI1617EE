@@ -10,7 +10,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const expressSession = require('express-session');
 const dbService = require(__dirname + '/services/dbService')
 
-const controller = require('./controllers/controller');
+const controller = require('./controllers/movieController');
 const userController = require('./controllers/userController');
 const authController = require('./controllers/authController');
 
@@ -61,10 +61,7 @@ passport.serializeUser((user, cb) => {
 // deserialize for persistent login sessions
 passport.deserializeUser((username, cb) => {
     dbService.getUser(username, (err, user) => {
-        cb(err,
-            {
-                username: user.username
-            });
+        cb(err, user);
     });
 });
 

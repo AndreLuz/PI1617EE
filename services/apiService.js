@@ -5,7 +5,7 @@ const MovieSearch = require('../models/MovieSearch.js');
 const MovieDetails = require('../models/MovieDetails.js');
 const Credits = require('../models/Credits.js');
 const ActorCredits = require('../models/ActorCredits.js');
-const cacheController = require('../controllers/cacheController.js');
+const caching = require('../caching.js');
 
 const exportHandler = {};
 const API_KEY = 'c1369884d0ef11d7a69a7fb32a80b8e9';
@@ -79,7 +79,7 @@ exportHandler.actorService = function(id, cb) {
 };
 
 function cacheWork(api_uri, cached_name, ctor, cb) {
-    let items = cacheController.Get(cached_name);
+    let items = caching.Get(cached_name);
     if (items !== undefined)
         return cb(null, items);
     provider.httpRequest(new Options(api_uri), (err, data) => {
@@ -87,7 +87,7 @@ function cacheWork(api_uri, cached_name, ctor, cb) {
             return cb(err);
         data = JSON.parse(data);
         let items = new ctor(data);
-        cacheController.Put(cached_name, items);
+        caching.Put(cached_name, items);
         cb(null, items);
     })
 }

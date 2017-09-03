@@ -15,13 +15,6 @@ module.exports = function(app) {
     });
 
     /**
-     * user page endpoint: /user
-     */
-    /*app.get('/user/:id', function(req, res, next) {
-
-     });*/
-
-    /**
      * endpoint 1: /movies?name=...&page=...
      */
     app.get('/movies', function(req, res, next) {

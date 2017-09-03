@@ -1,28 +1,6 @@
 {{#> layout}}
-<h2>{{username}} profile</h2>
 {{#if user}}
-    <!--{{#compareTwo user._id id}}
-        <h3>Pending Requests</h3>
-        {{#each user.requests}}
-            <p>{{this}}</p>
-            <form action="./acceptRequest/{{this}}" method="post" id="acceptRequest">
-                <button type="submit" form="acceptRequest" value="Submit">Accept</button>
-            </form>
-
-            <form action="./refuseRequest/{{this}}" method="post" id="refuseRequest">
-                <button type="submit" form="refuseRequest" value="Submit">Refuse</button>
-            </form>
-        {{/each}}
-    {{else}}
-        {{#if noRequest}}
-            <form action="./{{id}}/viewerRequest" method="post" id="viewerRequest">
-                <button type="submit" form="viewerRequest" value="Submit">Request</button>
-            </form>
-        {{/if}}
-    {{/compareTwo}}
-    <button type="button" onclick='getFollowedEvents("{{id}}")'>Followed Events</button>
-    <div id="followedEventsList"></div>
-    !-->
+    <h2>{{username}} profile</h2>
     <table>
         <tr>
             <th>Title</th>
@@ -34,13 +12,18 @@
                 <td><a href="/movies/{{this.id}}">{{this.title}}</a></td>
                 <td>{{this.releaseDate}}</td>
                 <td>{{this.voteAverage}}</td>
-                <!--<td><a href="{{this.album.url}}">Link</a></td>!-->
+                {{#compareTwo ../user.username ../username}}
+                    <td id="remove"><button type="button" onclick="removeFavourite({{this}})">Remove</button></td>
+                {{/compareTwo}}
             </tr>
         {{/each}}
     </table>
+    <!--<button type="button" onclick='getFollowedEvents("{{id}}")'>Followed Events</button>
+    <div id="followedEventsList"></div>
+    !-->
 {{else}}
-    <script>
-        window.onload(alerter('Log in first to view this profile'))
-    </script>
+<script>
+    window.onload(alerter('Log in first to view this profile'))
+</script>
 {{/if}}
 {{/layout}}
