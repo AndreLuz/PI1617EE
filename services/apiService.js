@@ -1,6 +1,6 @@
 'use strict';
 
-const provider = require('../infoprovider.js');
+const provider = require('../infoProvider.js');
 const MovieSearch = require('../models/MovieSearch.js');
 const MovieDetails = require('../models/MovieDetails.js');
 const Credits = require('../models/Credits.js');
