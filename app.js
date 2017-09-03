@@ -5,8 +5,14 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const hbs = require('hbs');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const expressSession = require('express-session');
+const dbService = require(__dirname + '/services/dbService')
 
 const controller = require('./controllers/controller');
+const userController = require('./controllers/userController');
+const authController = require('./controllers/authController');
 
 const app = express();
 
@@ -24,13 +30,49 @@ app.set('views', path.join(__dirname + '/views'));
 app.set('view engine', 'hbs');
 // register partials
 hbs.registerPartials(__dirname + '/views/partials');
+hbs.registerHelper('compareTwo', function(param1, param2, options) {
+    if(param1 === param2)
+        return options.fn(this);
+    else
+        return options.inverse(this);
+});
 
+
+/**
+ * PASSPORT
+ */
+//strategy for login
+passport.use('local', new LocalStrategy((username, password, cb) => {
+        dbService.userAuthentication(username, password, cb);
+    })
+);
+
+// strategy for signup
+passport.use('local-signup', new LocalStrategy((username, password, cb) => {
+        dbService.insertUser(username, password, cb);
+    })
+);
+
+// serialize for persistent login sessions
+passport.serializeUser((user, cb) => {
+    cb(null, user.username);
+});
+
+// deserialize for persistent login sessions
+passport.deserializeUser((username, cb) => {
+    dbService.getUser(username, (err, user) => {
+        cb(err,
+            {
+                username: user.username
+            });
+    });
+});
 
 /**
  * Middlewares
  */
 // loads favicon from given directory
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -42,15 +84,31 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 /**
+ * Passport Middlewares
+ */
+app.use(cookieParser());
+// creates an express session
+app.use(expressSession({
+    secret: 'space odity',
+    resave: true,
+    saveUninitialized: true}));
+// needed for passport use in express
+app.use(passport.initialize());
+// for persistent login sessions
+app.use(passport.session());
+
+
+/**
  * Controllers
  */
 controller(app);
+userController(app);
+authController(app, passport);
 
 
 /**
  * Handling Errors
  */
-
 // no routes for the path requested (order matters)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

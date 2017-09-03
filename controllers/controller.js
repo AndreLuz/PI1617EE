@@ -5,18 +5,21 @@ var apiService = require('../services/apiService');
 module.exports = function(app) {
 
     /**
-     * homepage endpoint: /
+     * homepage(movie search) endpoint: /
      */
     app.get('/', function(req, res, next) {
-        res.render('index', { title: 'Movie Search' });
+        res.render('homepage', {
+            title: 'Search Movie',
+            user: req.user
+        });
     });
 
     /**
      * user page endpoint: /user
      */
-    app.get('/user/:id', function(req, res, next) {
+    /*app.get('/user/:id', function(req, res, next) {
 
-    });
+     });*/
 
     /**
      * endpoint 1: /movies?name=...&page=...
@@ -32,6 +35,7 @@ module.exports = function(app) {
             res.render('movies_list',
                 {
                     title: 'Search Results',
+                    user: req.user,
                     name: name,
                     results: data.results,
                     pagination: pagination
@@ -49,6 +53,7 @@ module.exports = function(app) {
             res.render('movie_details',
                 {
                     title: data.originalTitle,
+                    user: req.user,
                     movie: data
                 });
         });
@@ -64,6 +69,7 @@ module.exports = function(app) {
             res.render('credits',
                 {
                     title: "Credits",
+                    user: req.user,
                     cast: data.cast
                 });
         });
@@ -79,6 +85,7 @@ module.exports = function(app) {
             res.render('actor',
                 {
                     title: 'Actor Name',
+                    user: req.user,
                     cast: data.cast
                 });
         });

@@ -1,5 +1,5 @@
 {{#> layout}}
-<h1>Username: {{id}}</h1>
+<h2>{{username}} profile</h2>
 {{#if user}}
     <!--{{#compareTwo user._id id}}
         <h3>Pending Requests</h3>
@@ -19,11 +19,28 @@
                 <button type="submit" form="viewerRequest" value="Submit">Request</button>
             </form>
         {{/if}}
-    {{/compareTwo}}!-->
-
+    {{/compareTwo}}
     <button type="button" onclick='getFollowedEvents("{{id}}")'>Followed Events</button>
     <div id="followedEventsList"></div>
+    !-->
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Release Date</th>
+            <th>Vote Avg</th>
+        </tr>
+        {{#each favourites}}
+            <tr>
+                <td><a href="/movies/{{this.id}}">{{this.title}}</a></td>
+                <td>{{this.releaseDate}}</td>
+                <td>{{this.voteAverage}}</td>
+                <!--<td><a href="{{this.album.url}}">Link</a></td>!-->
+            </tr>
+        {{/each}}
+    </table>
 {{else}}
-    <p>Login first</p>
+    <script>
+        window.onload(alerter('Log in first to view this profile'))
+    </script>
 {{/if}}
 {{/layout}}

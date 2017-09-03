@@ -2,15 +2,12 @@
 
 var dbService = require('../services/dbService');
 
-module.exports = function(app) {
+module.exports = function(app, passport) {
     /**
      * user search endpoint: /user
      */
     app.get('/user', function(req, res, next) {
-        res.render('user_search', {
-            title: 'Search User',
-            user: req.user
-        });
+        res.render('user_search', {title: 'Search User' });
     });
 
     /**
@@ -23,10 +20,33 @@ module.exports = function(app) {
             res.render('user',
                 {
                     title: data.username + ' Profile',
-                    user: req.user,
                     username: data.username,
                     favourites: data.favourites
                 });
-        });
+        })
     });
+
+    /**
+     * log in endpoint: /login
+     */
+    app.get('/login', function(req, res, next) {
+        res.render('login', { title: 'Login Page' });
+    });
+
+    app.post('/login', passport.authenticate(
+        'local',
+        {
+            successRedirect: '/',
+            failureRedirect: '/login',
+        })
+    );
+
+    /**
+     * sign up endpoint: /signup
+     */
+    app.get('/signup', function(req, res, next) {
+        res.render('signup', { title: 'Signup Page' });
+    })
+
+    /*app.post()*/
 };
