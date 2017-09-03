@@ -7,14 +7,14 @@ const exportHandler = {};
 
 function Options(uri, method, headers) {
     //this.auth = "litherstarroonedimpuzzys"+ ":" + "627ae27bd68bf00cd412134fea9228d69b6c970f"
-    this.baseUrl = 'http://localhost:5984';
+    this.baseUrl = 'https://luz.cloudant.com';
     this.uri = uri;
     this.method = method;
     this.headers = headers || '';
 }
 
 exportHandler.getUser = function(username, cb) {
-    const opt = new Options('/users/' + username, 'GET');
+    const opt = new Options('/movie_users/' + username, 'GET');
     provider.httpRequest(opt, (err, data) => {
         if(err)
             return cb(err);
@@ -26,7 +26,7 @@ exportHandler.getUser = function(username, cb) {
 };
 
 exportHandler.insertUser = function(username, password, cb) {
-    const opt = new Options('/users/' + username, 'PUT');
+    const opt = new Options('/movie_users/' + username, 'PUT');
     opt.json = {
         '_id': username,
         'username': username,
@@ -57,7 +57,7 @@ exportHandler.userAuthentication = function (username, password, cb) {
 };
 
 exportHandler.addFavourite = function(user, movie, cb) {
-    const opt = new Options('/users/' + user.username, 'PUT', {'Content-Type': 'application/json'});
+    const opt = new Options('/movie_users/' + user.username, 'PUT', {'Content-Type': 'application/json'});
     user.favourites.push(new MovieSearchItem({
         title: movie.originalTitle,
         id: movie.id,
@@ -82,7 +82,7 @@ exportHandler.addFavourite = function(user, movie, cb) {
 };
 
 exportHandler.removeFavourite = function(user, movie_id, cb) {
-    const opt = new Options('/users/' + user.username, 'PUT', {'Content-Type': 'application/json'});
+    const opt = new Options('/movie_users/' + user.username, 'PUT', {'Content-Type': 'application/json'});
     user.favourites.forEach((val, i, array) => {
         if(val.id === movie_id)
             array.splice(i, 1)
