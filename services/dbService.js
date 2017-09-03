@@ -1,6 +1,6 @@
 'use strict';
 
-const provider = require('../infoprovider.js');
+const provider = require('../infoProvider.js');
 const MovieSearchItem = require('../models/MovieSearchItem.js');
 
 const exportHandler = {};
