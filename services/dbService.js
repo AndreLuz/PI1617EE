@@ -5,7 +5,7 @@ const MovieSearchItem = require('../models/MovieSearchItem.js');
 
 const exportHandler = {};
 
-const auth = "luz" + ":" + "CLOUDANTismyfriend";
+const auth = "Basic luz" + ":" + "CLOUDANTismyfriend";
 
 function Options(uri, method, headers) {
     this.baseUrl = 'https://luz.cloudant.com';
