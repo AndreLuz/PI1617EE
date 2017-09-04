@@ -5,13 +5,13 @@ const MovieSearchItem = require('../models/MovieSearchItem.js');
 
 const exportHandler = {};
 
-const auth = "Basic luz" + ":" + "CLOUDANTismyfriend";
+const auth = "luz" + ":" + "CLOUDANTismyfriend";
 
 function Options(uri, method, headers) {
-    this.baseUrl = 'https://luz.cloudant.com';
+    this.baseUrl = 'https:' + auth + '@//luz.cloudant.com';
     this.uri = uri;
     this.method = method;
-    this.headers = headers ? headers.Authorization = auth : { 'Authorization': auth };
+    this.headers = headers || '';
 }
 
 exportHandler.getUser = function(username, cb) {
