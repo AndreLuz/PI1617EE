@@ -11,7 +11,7 @@ function Options(uri, method, headers) {
     this.baseUrl = 'https://luz.cloudant.com';
     this.uri = uri;
     this.method = method;
-    this.headers = headers ? headers.Authorization = auth : { Authorization: auth};
+    this.headers = headers ? headers.Authorization = auth : { 'Authorization': auth };
 }
 
 exportHandler.getUser = function(username, cb) {
