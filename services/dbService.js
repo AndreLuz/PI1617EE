@@ -8,7 +8,7 @@ const exportHandler = {};
 const auth = "luz" + ":" + "CLOUDANTismyfriend";
 
 function Options(uri, method, headers) {
-    this.baseUrl = 'https:' + auth + '@//luz.cloudant.com';
+    this.baseUrl = 'https://' + auth + '@luz.cloudant.com';
     this.uri = uri;
     this.method = method;
     this.headers = headers || '';
