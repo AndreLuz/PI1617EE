@@ -11,9 +11,6 @@ const exportHandler = {};
 const API_KEY = 'c1369884d0ef11d7a69a7fb32a80b8e9';
 
 function Options(uri, method, form, headers) {
-    //this.protocol = 'https:'
-    //this.hostname = 'api.themoviedb.org'
-    //this.auth = "litherstarroonedimpuzzys"+ ":" + "627ae27bd68bf00cd412134fea9228d69b6c970f"
     this.uri = uri;
     this.method = method || 'GET';
     this.headers = headers || '';

@@ -6,7 +6,7 @@ const MovieSearchItem = require('../models/MovieSearchItem.js');
 const exportHandler = {};
 
 function Options(uri, method, headers) {
-    //this.auth = "litherstarroonedimpuzzys"+ ":" + "627ae27bd68bf00cd412134fea9228d69b6c970f"
+    this.authorization = "luz"+ ":" + "CLOUDANTismyfriend"
     this.baseUrl = 'https://luz.cloudant.com';
     this.uri = uri;
     this.method = method;
@@ -26,7 +26,7 @@ exportHandler.getUser = function(username, cb) {
 };
 
 exportHandler.insertUser = function(username, password, cb) {
-    const opt = new Options('/movie_users', 'POST', {'Content-Type': 'application/json'});
+    const opt = new Options('/movie_users', 'POST');
     opt.json = {
         '_id': username,
         'username': username,
