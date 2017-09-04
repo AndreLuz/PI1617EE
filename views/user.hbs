@@ -13,7 +13,7 @@
                 <td>{{this.releaseDate}}</td>
                 <td>{{this.voteAverage}}</td>
                 {{#compareTwo ../user.username ../username}}
-                    <td id="remove"><button type="button" onclick="removeFavourite({{this}})">Remove</button></td>
+                    <td id="remove"><button type="button" onclick="removeFavourite({{this.id}})">Remove</button></td>
                 {{/compareTwo}}
             </tr>
         {{/each}}

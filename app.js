@@ -1,3 +1,5 @@
+'use strict'
+
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
@@ -35,6 +37,13 @@ hbs.registerHelper('compareTwo', function(param1, param2, options) {
         return options.fn(this);
     else
         return options.inverse(this);
+});
+hbs.registerHelper('checkIfUserHasFavourite', function(user, movie, options) {
+    user.favourites.forEach(e => {
+        if (e.id === movie)
+            return options.fn(this)
+    });
+    return options.inverse(this);
 });
 
 

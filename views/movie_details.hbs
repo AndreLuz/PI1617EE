@@ -3,10 +3,13 @@
     <div class="col-xs-6">
         <h2 style="display: inline-block; padding-bottom: 20px">{{movie.originalTitle}}</h2>
         <p style="display: inline-block; padding-left: 10px"><i>id: {{movie.id}}</i></p>
-        {{#if user}}
-            <button id="favourite" style="display: inline-block; padding-left: 10px"
-                    onclick="addFavourite(this, {{movie.toString}})">Favourite</button>
-        {{/if}}
+        {{#checkIfUserHasFavourite user movie.id}}
+        {{else}}
+            {{#if user}}
+                <button id="favourite" style="display: inline-block; padding-left: 10px"
+                        onclick="addFavourite(this, {{movie.toString}})">Favourite</button>
+            {{/if}}
+        {{/checkIfUserHasFavourite}}
         <p><b>Tagline:</b> {{movie.tagline}}</p>
         <p><b>Release Date:</b> {{movie.releaseDate}}</p>
         <p><b>Vote Average:</b> {{movie.voteAverage}}</p>
