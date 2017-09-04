@@ -38,13 +38,6 @@ hbs.registerHelper('compareTwo', function(param1, param2, options) {
     else
         return options.inverse(this);
 });
-hbs.registerHelper('checkIfUserHasFavourite', function(user, movie, options) {
-    user.favourites.forEach(e => {
-        if (e.id === movie)
-            return options.fn(this)
-    });
-    return options.inverse(this);
-});
 
 
 /**
