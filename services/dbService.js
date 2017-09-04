@@ -26,7 +26,7 @@ exportHandler.getUser = function(username, cb) {
 };
 
 exportHandler.insertUser = function(username, password, cb) {
-    const opt = new Options('/movie_users', 'POST');
+    const opt = new Options('/movie_users', 'POST', {'Content-Type': 'application/json'});
     opt.json = {
         '_id': username,
         'username': username,
